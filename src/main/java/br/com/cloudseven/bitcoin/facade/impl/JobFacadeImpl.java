@@ -7,8 +7,6 @@ import br.com.cloudseven.bitcoin.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
 /**
  * @author Marcos Pinho
  */
@@ -25,17 +23,13 @@ public class JobFacadeImpl implements JobFacade {
         Long cont = 0L;
         do {
             BitCoin bitCoin = new BitCoin();
-            regraColuna1(values, cont, bitCoin);
+            this.calculateVariableService.regraColuna1(values, cont, bitCoin);
+            this.calculateVariableService.regraColuna2(values, cont, bitCoin);
+            this.calculateVariableService.regraColuna3(values, cont, bitCoin);
             System.out.println("Coluna1: " + bitCoin.getColuna1());
+            System.out.println("Coluna2: " + bitCoin.getColuna2());
+            System.out.println("Coluna3: " + bitCoin.getColuna3());
         } while(cont > values.length);
-    }
-
-    private void regraColuna1(String[] values, Long cont, BitCoin bitCoin) {
-        BigDecimal soma = BigDecimal.ZERO;
-        for(String value : values) {
-            soma = this.calculateVariableService.aplicarRegraColuna1(cont, bitCoin, soma, value);
-            cont++;
-        }
     }
 
     @Override
@@ -52,7 +46,6 @@ public class JobFacadeImpl implements JobFacade {
                 "0.040564"};
         this.run(values);
     }
-
 
 
 }
