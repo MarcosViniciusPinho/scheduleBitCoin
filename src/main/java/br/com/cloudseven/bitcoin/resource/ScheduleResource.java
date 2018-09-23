@@ -1,8 +1,8 @@
 package br.com.cloudseven.bitcoin.resource;
 
 import br.com.cloudseven.bitcoin.dto.Job;
+import br.com.cloudseven.bitcoin.facade.JobFacade;
 import br.com.cloudseven.bitcoin.stream.ExcelBuild;
-import br.com.cloudseven.bitcoin.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,17 +19,17 @@ import javax.servlet.http.HttpServletResponse;
 public class ScheduleResource {
 
     @Autowired
-    private ScheduleService service;
+    private JobFacade facade;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> start(@RequestBody Job job){
-        this.service.start(job.getSegundo() == null ? 5L : job.getSegundo());
+        this.facade.start(job.getSegundo() == null ? 5L : job.getSegundo());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<Void> stop(HttpServletResponse response) {
-        this.service.stop();
+        this.facade.stop();
         ExcelBuild.build(response, "Variações.xls");
         return new ResponseEntity<>(HttpStatus.OK);
     }

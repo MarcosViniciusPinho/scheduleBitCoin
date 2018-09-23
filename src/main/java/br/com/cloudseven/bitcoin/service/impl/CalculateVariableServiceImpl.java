@@ -1,32 +1,30 @@
 package br.com.cloudseven.bitcoin.service.impl;
 
 import br.com.cloudseven.bitcoin.dto.BitCoin;
-import br.com.cloudseven.bitcoin.service.impl.util.RegraUtil;
+import br.com.cloudseven.bitcoin.service.CalculateVariableService;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * @author Marcos Pinho
  */
-public class CalculateVariableServiceImpl {
+@Service
+public class CalculateVariableServiceImpl implements CalculateVariableService {
 
-    public void run(String[] values) {
-        Long cont = 0L;
-        do {
-            BitCoin bitCoin = new BitCoin();
-            regraColuna1(values, cont, bitCoin);
-            System.out.println(bitCoin.getColuna1());
-        } while(cont > values.length);
-    }
+    @Override
+    public BigDecimal aplicarRegraColuna1(Long cont, BitCoin bitCoin, BigDecimal soma, String value) {
+        BigDecimal valor = new BigDecimal(value);
+        soma = soma.add(valor);
+        if(cont > 0) {
+            BigDecimal total = soma.divide(BigDecimal.valueOf(cont + 1),
+                    new MathContext(5, RoundingMode.HALF_UP));
 
-    private void regraColuna1(String[] values, Long cont, BitCoin bitCoin) {
-        BigDecimal soma = BigDecimal.ZERO;
-        for(String value : values) {
-            soma = RegraUtil.aplicarRegraColuna1(cont, bitCoin, soma, value);
-            cont++;
+            bitCoin.getColuna1().add(total.toString());
         }
+        return soma;
     }
-
-
 
 }

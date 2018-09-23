@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  */
 public class JobBitCoin implements Job {
 
+    //TODO criar um serviço para gravar as variações da moeda
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         System.out.println("TESTE" + LocalDateTime.now());
