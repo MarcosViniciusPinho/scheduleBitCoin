@@ -34,6 +34,25 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         this.regraComumDeSubtracao(values, cont, bitCoin.getColuna3(), 0);
     }
 
+    @Override
+    public void regraColuna4(String[] values, Long cont, BitCoin bitCoin) {
+        for(int i = 0; i < values.length; i++) {
+            if(cont > 0) {
+                BigDecimal valorAntigo = new BigDecimal(values[0]);
+                BigDecimal valorAtual = new BigDecimal(values[i]);
+                BigDecimal valorCem = BigDecimal.valueOf(100);
+                BigDecimal numeroNegativo = BigDecimal.valueOf(-0);
+
+                BigDecimal divisao = valorAtual.divide(valorAntigo, new MathContext(5, RoundingMode.UP));
+                BigDecimal multiplicacao = divisao.multiply(valorCem);
+                BigDecimal subtracao = valorCem.subtract(multiplicacao);
+
+                bitCoin.getColuna4().add(String.format("%.2f", numeroNegativo.subtract(subtracao)));
+            }
+            cont++;
+        }
+    }
+
     private void regraComumDeSubtracao(String[] values, Long cont, List<String> coluna) {
         this.regraComumDeSubtracao(values, cont, coluna, null);
     }
@@ -45,7 +64,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
                 BigDecimal valorAtual = new BigDecimal(values[i]);
 
                 BigDecimal subtracao = valorAtual.subtract(valorAntigo);
-                coluna.add(subtracao.toString());
+                coluna.add(String.format("%.6f", subtracao));
             }
             cont++;
         }
@@ -58,7 +77,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
             BigDecimal total = soma.divide(BigDecimal.valueOf(cont + 1),
                     new MathContext(5, RoundingMode.HALF_UP));
 
-            bitCoin.getColuna1().add(total.toString());
+            bitCoin.getColuna1().add(String.format("%.6f", total));
         }
         return soma;
     }
