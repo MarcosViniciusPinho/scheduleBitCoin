@@ -25,19 +25,19 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
     }
 
     @Override
-    public void regraColuna2(String[] values, Long cont, BitCoin bitCoin) {
-        this.regraComumDeSubtracao(values, cont, bitCoin.getColuna2());
+    public void regraColuna2(String[] values, BitCoin bitCoin) {
+        this.regraComumDeSubtracao(values, bitCoin.getColuna2());
     }
 
     @Override
-    public void regraColuna3(String[] values, Long cont, BitCoin bitCoin) {
-        this.regraComumDeSubtracao(values, cont, bitCoin.getColuna3(), 0);
+    public void regraColuna3(String[] values, BitCoin bitCoin) {
+        this.regraComumDeSubtracao(values, bitCoin.getColuna3(), 0);
     }
 
     @Override
-    public void regraColuna4(String[] values, Long cont, BitCoin bitCoin) {
+    public void regraColuna4(String[] values, BitCoin bitCoin) {
         for(int i = 0; i < values.length; i++) {
-            if(cont > 0) {
+            if(i > 0) {
                 BigDecimal valorAntigo = new BigDecimal(values[0]);
                 BigDecimal valorAtual = new BigDecimal(values[i]);
                 BigDecimal valorCem = BigDecimal.valueOf(100);
@@ -49,7 +49,6 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
 
                 bitCoin.getColuna4().add(numeroNegativo.subtract(subtracao).setScale(2, 2).toString());
             }
-            cont++;
         }
     }
 
@@ -66,20 +65,35 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         }
     }
 
-    private void regraComumDeSubtracao(String[] values, Long cont, List<String> coluna) {
-        this.regraComumDeSubtracao(values, cont, coluna, null);
+    @Override
+    public void regraColuna6(Long cont, BitCoin bitCoin) {
+        for(int i = 0; i < bitCoin.getColuna4().size(); i++) {
+            if(i > 0) {
+                String valorAntigoOther = bitCoin.getColuna4().get(i - 1);
+                BigDecimal valorAntigo = new BigDecimal(valorAntigoOther);
+
+                String valorAtualOther = bitCoin.getColuna4().get(i);
+                BigDecimal valorAtual = new BigDecimal(valorAtualOther);
+
+                BigDecimal soma = valorAntigo.add(valorAtual);
+                bitCoin.getColuna6().add(soma.toString());
+            }
+        }
     }
 
-    private void regraComumDeSubtracao(String[] values, Long cont, List<String> coluna, Integer valorFixo) {
+    private void regraComumDeSubtracao(String[] values, List<String> coluna) {
+        this.regraComumDeSubtracao(values, coluna, null);
+    }
+
+    private void regraComumDeSubtracao(String[] values, List<String> coluna, Integer valorFixo) {
         for(int i = 0; i < values.length; i++) {
-            if(cont > 0) {
+            if(i > 0) {
                 BigDecimal valorAntigo = new BigDecimal(values[valorFixo != null ? valorFixo : i - 1]);
                 BigDecimal valorAtual = new BigDecimal(values[i]);
 
                 BigDecimal subtracao = valorAtual.subtract(valorAntigo);
                 coluna.add(subtracao.toString());
             }
-            cont++;
         }
     }
 

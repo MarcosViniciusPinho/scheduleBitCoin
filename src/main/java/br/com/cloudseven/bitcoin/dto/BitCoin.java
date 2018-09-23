@@ -13,6 +13,7 @@ public class BitCoin {
     private List<String> coluna3;
     private List<String> coluna4;
     private List<String> coluna5;
+    private List<String> coluna6;
 
     public BitCoin() {
         this.coluna1 = new ArrayList<>();
@@ -20,6 +21,7 @@ public class BitCoin {
         this.coluna3 = new ArrayList<>();
         this.coluna4 = new ArrayList<>();
         this.coluna5 = new ArrayList<>();
+        this.coluna6 = new ArrayList<>();
     }
 
     public List<String> getColuna1() {
@@ -40,5 +42,9 @@ public class BitCoin {
 
     public List<String> getColuna5() {
         return coluna5;
+    }
+
+    public List<String> getColuna6() {
+        return coluna6;
     }
 }
