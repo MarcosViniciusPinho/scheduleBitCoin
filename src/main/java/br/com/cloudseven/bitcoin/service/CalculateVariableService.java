@@ -15,4 +15,6 @@ public interface CalculateVariableService {
 
     void regraColuna4(String[] values, Long cont, BitCoin bitCoin);
 
+    void regraColuna5(Long cont, BitCoin bitCoin);
+
 }

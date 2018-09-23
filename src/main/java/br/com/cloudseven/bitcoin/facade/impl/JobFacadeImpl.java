@@ -27,10 +27,12 @@ public class JobFacadeImpl implements JobFacade {
             this.calculateVariableService.regraColuna2(values, cont, bitCoin);
             this.calculateVariableService.regraColuna3(values, cont, bitCoin);
             this.calculateVariableService.regraColuna4(values, cont, bitCoin);
+            this.calculateVariableService.regraColuna5(cont, bitCoin);
             System.out.println("Coluna1: " + bitCoin.getColuna1());
             System.out.println("Coluna2: " + bitCoin.getColuna2());
             System.out.println("Coluna3: " + bitCoin.getColuna3());
             System.out.println("Coluna4: " + bitCoin.getColuna4());
+            System.out.println("Coluna5: " + bitCoin.getColuna5());
         } while(cont > values.length);
     }
 
@@ -48,5 +50,7 @@ public class JobFacadeImpl implements JobFacade {
                 "0.040564"};
         this.run(values);
     }
+
+
 
 }
