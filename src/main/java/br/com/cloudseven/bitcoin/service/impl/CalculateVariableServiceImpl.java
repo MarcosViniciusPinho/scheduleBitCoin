@@ -43,26 +43,18 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
                 BigDecimal valorCem = BigDecimal.valueOf(100);
                 BigDecimal numeroNegativo = BigDecimal.valueOf(-0);
 
-                BigDecimal divisao = valorAtual.divide(valorAntigo, new MathContext(5, RoundingMode.UP));
+                BigDecimal divisao = valorAtual.divide(valorAntigo, new MathContext(5, RoundingMode.HALF_UP));
                 BigDecimal multiplicacao = divisao.multiply(valorCem);
                 BigDecimal subtracao = valorCem.subtract(multiplicacao);
 
-                bitCoin.getColuna4().add(numeroNegativo.subtract(subtracao).setScale(2, 2).toString());
+                bitCoin.getColuna4().add(numeroNegativo.subtract(subtracao).setScale(2, RoundingMode.HALF_DOWN).toString());
             }
         }
     }
 
     @Override
     public void regraColuna5(Long cont, BitCoin bitCoin) {
-        BigDecimal soma = BigDecimal.ZERO;
-        for(String value : bitCoin.getColuna4()) {
-            BigDecimal valor = new BigDecimal(value);
-            soma = soma.add(valor);
-            if(cont > 0) {
-                bitCoin.getColuna5().add(soma.toString());
-            }
-            cont++;
-        }
+        this.regraComumDeSomarElementoFixoComOsDemais(cont, bitCoin.getColuna4(), bitCoin.getColuna5());
     }
 
     @Override
@@ -78,6 +70,23 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
                 BigDecimal soma = valorAntigo.add(valorAtual);
                 bitCoin.getColuna6().add(soma.toString());
             }
+        }
+    }
+
+    @Override
+    public void regraColuna7(Long cont, BitCoin bitCoin) {
+        this.regraComumDeSomarElementoFixoComOsDemais(cont, bitCoin.getColuna6(), bitCoin.getColuna7());
+    }
+
+    private void regraComumDeSomarElementoFixoComOsDemais(Long cont, List<String> colunaParaIterar, List<String> colunaParaAdicionar) {
+        BigDecimal soma = BigDecimal.ZERO;
+        for(String value : colunaParaIterar) {
+            BigDecimal valor = new BigDecimal(value);
+            soma = soma.add(valor);
+            if(cont > 0) {
+                colunaParaAdicionar.add(soma.toString());
+            }
+            cont++;
         }
     }
 

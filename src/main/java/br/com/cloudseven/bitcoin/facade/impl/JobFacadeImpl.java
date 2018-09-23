@@ -31,12 +31,14 @@ public class JobFacadeImpl implements JobFacade {
             this.calculateVariableService.regraColuna4(values, bitCoin);
             this.calculateVariableService.regraColuna5(cont, bitCoin);
             this.calculateVariableService.regraColuna6(cont, bitCoin);
+            this.calculateVariableService.regraColuna7(cont, bitCoin);
             System.out.println("Coluna1: " + bitCoin.getColuna1());
             System.out.println("Coluna2: " + bitCoin.getColuna2());
             System.out.println("Coluna3: " + bitCoin.getColuna3());
             System.out.println("Coluna4: " + bitCoin.getColuna4());
             System.out.println("Coluna5: " + bitCoin.getColuna5());
             System.out.println("Coluna6: " + bitCoin.getColuna6());
+            System.out.println("Coluna7: " + bitCoin.getColuna7());
         } while(cont > values.length);
     }
 
