@@ -8,6 +8,9 @@ import br.com.cloudseven.bitcoin.service.impl.CalculateVariableServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Marcos Pinho
  */
@@ -21,25 +24,22 @@ public class JobFacadeImpl implements JobFacade {
     @Autowired
     private ScheduleService scheduleService;
 
-    private void run(String[] values) {
-        Long cont = 0L;
-        do {
-            BitCoin bitCoin = new BitCoin();
-            this.calculateVariableService.regraColuna1(values, cont, bitCoin);
-            this.calculateVariableService.regraColuna2(values, bitCoin);
-            this.calculateVariableService.regraColuna3(values, bitCoin);
-            this.calculateVariableService.regraColuna4(values, bitCoin);
-            this.calculateVariableService.regraColuna5(cont, bitCoin);
-            this.calculateVariableService.regraColuna6(cont, bitCoin);
-            this.calculateVariableService.regraColuna7(cont, bitCoin);
-            System.out.println("Coluna1: " + bitCoin.getColuna1());
-            System.out.println("Coluna2: " + bitCoin.getColuna2());
-            System.out.println("Coluna3: " + bitCoin.getColuna3());
-            System.out.println("Coluna4: " + bitCoin.getColuna4());
-            System.out.println("Coluna5: " + bitCoin.getColuna5());
-            System.out.println("Coluna6: " + bitCoin.getColuna6());
-            System.out.println("Coluna7: " + bitCoin.getColuna7());
-        } while(cont > values.length);
+    private void run(List<String> values) {
+        BitCoin bitCoin = new BitCoin();
+        this.calculateVariableService.regraColuna1(values, bitCoin);
+        this.calculateVariableService.regraColuna2(values, bitCoin);
+        this.calculateVariableService.regraColuna3(values, bitCoin);
+        this.calculateVariableService.regraColuna4(values, bitCoin);
+        this.calculateVariableService.regraColuna5(bitCoin);
+        this.calculateVariableService.regraColuna6(bitCoin);
+        this.calculateVariableService.regraColuna7(bitCoin);
+        System.out.println("Coluna1: " + bitCoin.getColuna1());
+        System.out.println("Coluna2: " + bitCoin.getColuna2());
+        System.out.println("Coluna3: " + bitCoin.getColuna3());
+        System.out.println("Coluna4: " + bitCoin.getColuna4());
+        System.out.println("Coluna5: " + bitCoin.getColuna5());
+        System.out.println("Coluna6: " + bitCoin.getColuna6());
+        System.out.println("Coluna7: " + bitCoin.getColuna7());
     }
 
     @Override
@@ -51,16 +51,16 @@ public class JobFacadeImpl implements JobFacade {
     public void stop() {
         this.scheduleService.stop();
 
-        String[] values = {"0.042208", "0.041873", "0.041653", "0.041988", "0.040208",
+        List<String> values = Arrays.asList("0.042208", "0.041873", "0.041653", "0.041988", "0.040208",
                 "0.039765", "0.041439", "0.042976", "0.040208", "0.039754", "0.043754", "0.041216",
-                "0.040564"};
+                "0.040564");
         this.run(values);
     }
 
     public static void main(String[] args){
-        String[] values = {"0.042208", "0.041873", "0.041653", "0.041988", "0.040208",
+        List<String> values = Arrays.asList("0.042208", "0.041873", "0.041653", "0.041988", "0.040208",
                 "0.039765", "0.041439", "0.042976", "0.040208", "0.039754", "0.043754", "0.041216",
-                "0.040564"};
+                "0.040564");
 
         JobFacadeImpl jobFacade = new JobFacadeImpl();
         jobFacade.run(values);
