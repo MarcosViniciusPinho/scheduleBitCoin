@@ -26,14 +26,7 @@ public class JobFacadeImpl implements JobFacade {
 
     private void run(List<String> values) {
         BitCoin bitCoin = new BitCoin();
-        this.calculateVariableService.regraColuna1(values, bitCoin);
-        this.calculateVariableService.regraColuna2(values, bitCoin);
-        this.calculateVariableService.regraColuna3(values, bitCoin);
-        this.calculateVariableService.regraColuna4(values, bitCoin);
-        this.calculateVariableService.regraColuna5(bitCoin);
-        this.calculateVariableService.regraColuna6(bitCoin);
-        this.calculateVariableService.regraColuna7(bitCoin);
-        this.calculateVariableService.regraColuna8(bitCoin);
+        this.calculateVariableService.aplicarRegras(values, bitCoin);
         System.out.println("Coluna1: " + bitCoin.getColuna1());
         System.out.println("Coluna2: " + bitCoin.getColuna2());
         System.out.println("Coluna3: " + bitCoin.getColuna3());

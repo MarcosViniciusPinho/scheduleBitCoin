@@ -16,22 +16,30 @@ import java.util.List;
 public class CalculateVariableServiceImpl implements CalculateVariableService {
 
     @Override
-    public void regraColuna1(List<String> values, BitCoin bitCoin) {
+    public void aplicarRegras(List<String> values, BitCoin bitCoin) {
+        this.regraColuna1(values, bitCoin);
+        this.regraColuna2(values, bitCoin);
+        this.regraColuna3(values, bitCoin);
+        this.regraColuna4(values, bitCoin);
+        this.regraColuna5(bitCoin);
+        this.regraColuna6(bitCoin);
+        this.regraColuna7(bitCoin);
+        this.regraColuna8(bitCoin);
+    }
+
+    private void regraColuna1(List<String> values, BitCoin bitCoin) {
         this.regraComumDeSomaAndDivisao(values, bitCoin.getColuna1());
     }
 
-    @Override
-    public void regraColuna2(List<String> values, BitCoin bitCoin) {
+    private void regraColuna2(List<String> values, BitCoin bitCoin) {
         this.regraComumDeSubtracao(values, bitCoin.getColuna2());
     }
 
-    @Override
-    public void regraColuna3(List<String> values, BitCoin bitCoin) {
+    private void regraColuna3(List<String> values, BitCoin bitCoin) {
         this.regraComumDeSubtracao(values, bitCoin.getColuna3(), 0);
     }
 
-    @Override
-    public void regraColuna4(List<String> values, BitCoin bitCoin) {
+    private void regraColuna4(List<String> values, BitCoin bitCoin) {
         for(int i = 0; i < values.size(); i++) {
             if(i > 0) {
                 BigDecimal valorAntigo = new BigDecimal(values.get(0));
@@ -48,13 +56,11 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         }
     }
 
-    @Override
-    public void regraColuna5(BitCoin bitCoin) {
+    private void regraColuna5(BitCoin bitCoin) {
         this.regraComumDeSomarElementoFixoComOsDemais(bitCoin.getColuna4(), bitCoin.getColuna5());
     }
 
-    @Override
-    public void regraColuna6(BitCoin bitCoin) {
+    private void regraColuna6(BitCoin bitCoin) {
         for(int i = 0; i < bitCoin.getColuna4().size(); i++) {
             if(i > 0) {
                 String valorAntigoOther = bitCoin.getColuna4().get(i - 1);
@@ -69,13 +75,11 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         }
     }
 
-    @Override
-    public void regraColuna7(BitCoin bitCoin) {
+    private void regraColuna7(BitCoin bitCoin) {
         this.regraComumDeSomarElementoFixoComOsDemais(bitCoin.getColuna6(), bitCoin.getColuna7());
     }
 
-    @Override
-    public void regraColuna8(BitCoin bitCoin) {
+    private void regraColuna8(BitCoin bitCoin) {
         this.regraComumDeSomaAndDivisao(bitCoin.getColuna7(), bitCoin.getColuna8(), 11L);
     }
 
