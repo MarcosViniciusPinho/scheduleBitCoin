@@ -25,6 +25,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         this.regraColuna6(bitCoin);
         this.regraColuna7(bitCoin);
         this.regraColuna8(bitCoin);
+        this.regraColuna9(values, bitCoin);
     }
 
     private void regraColuna1(List<String> values, BitCoin bitCoin) {
@@ -40,20 +41,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
     }
 
     private void regraColuna4(List<String> values, BitCoin bitCoin) {
-        for(int i = 0; i < values.size(); i++) {
-            if(i > 0) {
-                BigDecimal valorAntigo = new BigDecimal(values.get(0));
-                BigDecimal valorAtual = new BigDecimal(values.get(i));
-                BigDecimal valorCem = BigDecimal.valueOf(100);
-                BigDecimal numeroNegativo = BigDecimal.valueOf(-0);
-
-                BigDecimal divisao = valorAtual.divide(valorAntigo, new MathContext(5, RoundingMode.HALF_UP));
-                BigDecimal multiplicacao = divisao.multiply(valorCem);
-                BigDecimal subtracao = valorCem.subtract(multiplicacao);
-
-                bitCoin.getColuna4().add(numeroNegativo.subtract(subtracao).setScale(2, RoundingMode.HALF_DOWN).toString());
-            }
-        }
+        this.regraComumSubtraiAndMultiplicaAndDividi(values, bitCoin.getColuna4());
     }
 
     private void regraColuna5(BitCoin bitCoin) {
@@ -81,6 +69,10 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
 
     private void regraColuna8(BitCoin bitCoin) {
         this.regraComumDeSomaAndDivisao(bitCoin.getColuna7(), bitCoin.getColuna8(), 11L);
+    }
+
+    private void regraColuna9(List<String> values, BitCoin bitCoin) {
+        this.regraComumSubtraiAndMultiplicaAndDividi(bitCoin.getColuna1(), bitCoin.getColuna9(), values.get(0));
     }
 
     private void regraComumDeSomarElementoFixoComOsDemais(List<String> colunaParaIterar, List<String> colunaParaAdicionar) {
@@ -136,6 +128,27 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         for(String value : colunaParaIterar) {
             soma = this.aplicarRegraDeSomaAndDivisao(cont, colunaParaAdicionar, soma, value, divisor != null ? divisor : cont + 1);
             cont++;
+        }
+    }
+
+    private void regraComumSubtraiAndMultiplicaAndDividi(List<String> colunaParaIterar, List<String> colunaParaAdicionar) {
+        this.regraComumSubtraiAndMultiplicaAndDividi(colunaParaIterar, colunaParaAdicionar, null);
+    }
+
+    private void regraComumSubtraiAndMultiplicaAndDividi(List<String> colunaParaIterar, List<String> colunaParaAdicionar, String primeiroValorDaColuna1) {
+        for(int i = 0; i < colunaParaIterar.size(); i++) {
+            if(i > 0 || primeiroValorDaColuna1 != null) {
+                BigDecimal valorAntigo = new BigDecimal(primeiroValorDaColuna1 != null ? primeiroValorDaColuna1 : colunaParaIterar.get(0));
+                BigDecimal valorAtual = new BigDecimal(colunaParaIterar.get(i));
+                BigDecimal valorCem = BigDecimal.valueOf(100);
+                BigDecimal numeroNegativo = BigDecimal.valueOf(-0);
+
+                BigDecimal divisao = valorAtual.divide(valorAntigo, new MathContext(5, RoundingMode.HALF_EVEN));
+                BigDecimal multiplicacao = divisao.multiply(valorCem);
+                BigDecimal subtracao = valorCem.subtract(multiplicacao);
+
+                colunaParaAdicionar.add(numeroNegativo.subtract(subtracao).setScale(2, RoundingMode.HALF_DOWN).toString());
+            }
         }
     }
 }

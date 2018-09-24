@@ -35,6 +35,7 @@ public class JobFacadeImpl implements JobFacade {
         System.out.println("Coluna6: " + bitCoin.getColuna6());
         System.out.println("Coluna7: " + bitCoin.getColuna7());
         System.out.println("Coluna8: " + bitCoin.getColuna8());
+        System.out.println("Coluna9: " + bitCoin.getColuna9());
     }
 
     @Override
