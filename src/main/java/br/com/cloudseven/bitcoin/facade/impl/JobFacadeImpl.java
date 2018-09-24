@@ -33,6 +33,7 @@ public class JobFacadeImpl implements JobFacade {
         this.calculateVariableService.regraColuna5(bitCoin);
         this.calculateVariableService.regraColuna6(bitCoin);
         this.calculateVariableService.regraColuna7(bitCoin);
+        this.calculateVariableService.regraColuna8(bitCoin);
         System.out.println("Coluna1: " + bitCoin.getColuna1());
         System.out.println("Coluna2: " + bitCoin.getColuna2());
         System.out.println("Coluna3: " + bitCoin.getColuna3());
@@ -40,6 +41,7 @@ public class JobFacadeImpl implements JobFacade {
         System.out.println("Coluna5: " + bitCoin.getColuna5());
         System.out.println("Coluna6: " + bitCoin.getColuna6());
         System.out.println("Coluna7: " + bitCoin.getColuna7());
+        System.out.println("Coluna8: " + bitCoin.getColuna8());
     }
 
     @Override

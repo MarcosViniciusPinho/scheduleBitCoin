@@ -17,12 +17,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
 
     @Override
     public void regraColuna1(List<String> values, BitCoin bitCoin) {
-        Long cont = 0L;
-        BigDecimal soma = BigDecimal.ZERO;
-        for(String value : values) {
-            soma = this.aplicarRegraColuna1(cont, bitCoin, soma, value);
-            cont++;
-        }
+        this.regraComumDeSomaAndDivisao(values, bitCoin.getColuna1());
     }
 
     @Override
@@ -81,7 +76,7 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
 
     @Override
     public void regraColuna8(BitCoin bitCoin) {
-
+        this.regraComumDeSomaAndDivisao(bitCoin.getColuna7(), bitCoin.getColuna8(), 11L);
     }
 
     private void regraComumDeSomarElementoFixoComOsDemais(List<String> colunaParaIterar, List<String> colunaParaAdicionar) {
@@ -115,16 +110,28 @@ public class CalculateVariableServiceImpl implements CalculateVariableService {
         }
     }
 
-    private BigDecimal aplicarRegraColuna1(Long cont, BitCoin bitCoin, BigDecimal soma, String value) {
+    private BigDecimal aplicarRegraDeSomaAndDivisao(Long cont, List<String> colunaParaAdicionar, BigDecimal soma, String value, Long divisor) {
         BigDecimal valor = new BigDecimal(value);
         soma = soma.add(valor);
         if(cont > 0) {
-            BigDecimal total = soma.divide(BigDecimal.valueOf(cont + 1),
+            BigDecimal total = soma.divide(BigDecimal.valueOf(divisor),
                     new MathContext(5, RoundingMode.HALF_UP));
 
-            bitCoin.getColuna1().add(total.toString());
+            colunaParaAdicionar.add(total.toString());
         }
         return soma;
     }
 
+    private void regraComumDeSomaAndDivisao(List<String> values, List<String> colunaParaAdicionar) {
+        this.regraComumDeSomaAndDivisao(values, colunaParaAdicionar, null);
+    }
+
+    private void regraComumDeSomaAndDivisao(List<String> colunaParaIterar, List<String> colunaParaAdicionar, Long divisor) {
+        Long cont = 0L;
+        BigDecimal soma = BigDecimal.ZERO;
+        for(String value : colunaParaIterar) {
+            soma = this.aplicarRegraDeSomaAndDivisao(cont, colunaParaAdicionar, soma, value, divisor != null ? divisor : cont + 1);
+            cont++;
+        }
+    }
 }
